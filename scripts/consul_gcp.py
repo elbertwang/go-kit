@@ -39,7 +39,7 @@ def default_balance_factor(fm="consul/factor_map.json", consul="localhost:8500")
     factor_map = default_balance_factor_map(fm, consul)
     print(factor_map)
 
-    status, output = subprocess.getstatusoutput("curl -s -H 'Metadata-Flavor:Google' 'http://metadata.google.internal/computeMetadata/v1/instance/machine-type'")
+    status, output = subprocess.getstatusoutput("curl -s -H 'Metadata-Flavor:Google' 'http://metadata.google.internal/computeMetadata/v1/instance/machine-type' | cut -d '/' -f 4")
     machine = "unknown"
     if status == 0:
         machine = output.split()[1]
@@ -51,7 +51,7 @@ def default_balance_factor(fm="consul/factor_map.json", consul="localhost:8500")
 
 
 def default_zone():
-    status, output = subprocess.getstatusoutput("curl -s -H 'Metadata-Flavor:Google' 'http://metadata.google.internal/computeMetadata/v1/instance/zone'")
+    status, output = subprocess.getstatusoutput("curl -s -H 'Metadata-Flavor:Google' 'http://metadata.google.internal/computeMetadata/v1/instance/zone' | cut -d '/' -f 4")
     zone = "unknown"
     if status == 0:
         zone = output.split()[1]
